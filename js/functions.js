@@ -119,7 +119,7 @@ class UI {
         this.uiSaveButton = this._front.createElement({tag:'button',attributes: {textContent:'SAVE',id:"uiSaveButton"}, style: {padding:'2px 5px'}});
         this.uiSaveButtonDiv.appendChild(this.uiSaveButton);
         document.body.appendChild(this.uiSaveButtonDiv);
-        this.uiSaveButton.addEventListener('click', sauvegarder)
+        this.uiSaveButton.addEventListener('click',sauvegarder)
 
     }
     createUiFiche() {

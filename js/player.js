@@ -1,7 +1,7 @@
 import { _front } from "./front.js";
 const _Player = {
     datas:{
-        image: { src: "assets/Player.png", imgwidth: 192, imgheight: 320, width: 64, height: 64, frameRate: 8 },
+        image: { src: "assets/Player.png", imgwidth: 192, imgheight: 320, width: 32, height: 32, frameRate: 8 },
         SPRITE_SIZE: 32,
         Animations:[
             { name: "idle_down", row: 0, frames: 6},
@@ -76,9 +76,12 @@ const _Player = {
                 this.PlayerSpriteSheet,
                 this.player.frameIndex * frameWidth, // Découpe horizontale
                 anim.row * frameHeight,  // Découpe verticale
-                frameWidth, frameHeight,
-                flippedX, centerY - frameHeight / 2,
-                frameWidth, frameHeight
+                frameWidth,
+                frameHeight,
+                flippedX,
+                centerY - frameHeight / 2,
+                frameWidth,
+                frameHeight
             );
     
             ctx.restore();
@@ -89,11 +92,12 @@ const _Player = {
                 anim.row * frameHeight,  // Découpe verticale
                 frameWidth,
                 frameHeight,
-                centerX - frameWidth / 2,
-                centerY - frameHeight / 2,
+                centerX - frameWidth / 2, // x
+                centerY - frameHeight / 2, // y
                 frameWidth, frameHeight
             );
         }
+        console.log(this.x,this.y)
     }
 }
 export class Player {
@@ -133,6 +137,8 @@ export class Player {
 
             this.createNameSelectionModal();
         }
+        this._Player.x = this.x
+        this._Player.y = this.y
     }
     move(dx, dy) {
         this.x += dx * this.speed;

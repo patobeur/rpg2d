@@ -1,5 +1,6 @@
 import { Player } from "./player.js"
 import { _front } from "./front.js";
+import { Skeleton } from './skeleton.js';
 import { Keyboard, Canvas, WorldConf, UI } from "./functions.js";
 
 class Game {
@@ -12,10 +13,18 @@ class Game {
         
         this.Player = new Player(); // Création du joueur
         this.Player.init(this.callbackPlayer); // Création du joueur
+        
+        this.enemies = [
+            new Skeleton(300, 400),
+            new Skeleton(600, 400)
+        ];
 
     }
     callbackPlayer=()=> {
         this.initWorld()
+    }
+    sauvegarderButton=()=> {
+        this.sauvegarder('boutton')
     }
     initWorld() {
         this.lastFrameTime = performance.now();
@@ -33,7 +42,7 @@ class Game {
                 this.UI.init(this.Player);
                 this.UI.createUiFiche();
                 this.UI.updateUiFiche();
-                this.UI.createUiSaveButton(this.sauvegarder('boutton')); // bouton de sauvegarde
+                this.UI.createUiSaveButton(this.sauvegarderButton); // bouton de sauvegarde
 
 
         this.Keyboard = new Keyboard(); // Gestion du clavier        
@@ -62,14 +71,23 @@ class Game {
             this.WorldConf.save()
         }
 
+        this.enemies.forEach(enemy => {
+            enemy.update(this.Player);
+            enemy.attack(this.Player);
+        });
         this.Canvas.render(dt,this.Player);
+        this.enemies.forEach(enemy => {
+            enemy.render(this.Canvas.ctx);
+        });
         
+
         this.Player._Player.drawPlayer()
         this.WorldConf.discoverVisibleTiles();
 
     }
     sauvegarder(comment) {
         let comments = {
+            boutton:'Boutton cliqué.',
             blur:'La fenêtre a perdu le focus.',
             mouseout:'La souris sort de la fenêtre.',
             beforeunload:'Avant de quitter.).',
